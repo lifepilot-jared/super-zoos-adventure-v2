@@ -1,5 +1,5 @@
-import { SuperZoosAdventureV22 } from "./v2/SuperZoosAdventureV22";
+import { SuperZoosAdventureV23 } from "./v2/SuperZoosAdventureV23";
 
 export default function App() {
-  return <SuperZoosAdventureV22 />;
+  return <SuperZoosAdventureV23 />;
 }
