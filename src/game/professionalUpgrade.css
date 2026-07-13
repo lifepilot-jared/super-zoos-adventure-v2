@@ -1,0 +1,288 @@
+/* v0.5 professional motion and readability pass */
+
+.school-stage {
+  isolation: isolate;
+  perspective: 900px;
+}
+
+.school-stage::before,
+.school-stage::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Moving school-sports markings to sell forward motion. */
+.school-stage::before {
+  z-index: 3;
+  left: 8%;
+  right: 8%;
+  bottom: -4%;
+  height: 61%;
+  clip-path: polygon(39% 0, 61% 0, 100% 100%, 0 100%);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 38px,
+      rgba(255, 255, 255, 0.34) 38px 43px,
+      transparent 43px 82px
+    );
+  opacity: 0.72;
+  animation: ovalRush 740ms linear infinite;
+}
+
+/* Soft speed haze at the edge of the oval. */
+.school-stage::after {
+  z-index: 4;
+  inset: 37% 0 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.22), transparent 16%, transparent 84%, rgba(255,255,255,0.22)),
+    repeating-linear-gradient(105deg, transparent 0 54px, rgba(255,255,255,0.10) 54px 59px, transparent 59px 112px);
+  opacity: 0.52;
+  animation: speedHaze 1.15s linear infinite;
+}
+
+.school-stage .oval-perspective {
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.18) 0 4px, transparent 4px 34px),
+    repeating-linear-gradient(90deg, rgba(20,118,55,0.08) 0 44px, rgba(255,255,255,0.05) 44px 88px),
+    linear-gradient(180deg, #8ddd78 0%, #51b85d 54%, #237f43 100%);
+  animation: grassPulse 2.2s ease-in-out infinite alternate;
+}
+
+.school-stage .fence {
+  animation: fenceDrift 2.8s ease-in-out infinite alternate;
+}
+
+.school-stage .gumtree.left {
+  animation: sceneryLeft 4.5s ease-in-out infinite alternate;
+}
+
+.school-stage .gumtree.right {
+  animation: sceneryRight 5.2s ease-in-out infinite alternate;
+}
+
+.school-stage .hall {
+  animation: hallParallax 6s ease-in-out infinite alternate;
+}
+
+/* School identity details */
+.school-stage .hall::after {
+  content: "SCHOOL HALL";
+  position: absolute;
+  left: 50%;
+  top: 27%;
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.88);
+  color: #8b4d2a;
+  font-size: clamp(0.48rem, 1.2vw, 0.72rem);
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.school-stage .sun::after {
+  content: "";
+  position: absolute;
+  width: 42%;
+  height: 18%;
+  left: -155%;
+  top: -42%;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 46px 12px 0 rgba(255,255,255,0.62), 88px -4px 0 rgba(255,255,255,0.48);
+  animation: cloudDrift 12s linear infinite;
+}
+
+/* Character running feel */
+.hero-runner.running .hero-sprite-wrap {
+  animation: runnerBob 330ms ease-in-out infinite alternate;
+}
+
+.hero-runner.running .hero-sprite {
+  animation: runnerTilt 330ms ease-in-out infinite alternate;
+  transform-origin: 50% 82%;
+}
+
+.hero-runner.running .hero-shadow {
+  animation: shadowStride 330ms ease-in-out infinite alternate;
+}
+
+.hero-runner.running::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  width: 56%;
+  height: 20%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 24% 52%, rgba(255,255,255,0.72) 0 8%, transparent 9%),
+    radial-gradient(circle at 52% 34%, rgba(255,255,255,0.54) 0 7%, transparent 8%),
+    radial-gradient(circle at 77% 58%, rgba(255,255,255,0.42) 0 6%, transparent 7%);
+  opacity: 0.56;
+  animation: dustPuff 620ms ease-out infinite;
+  pointer-events: none;
+}
+
+.hero-runner.super .hero-cape {
+  animation: capeFlutter 420ms ease-in-out infinite alternate;
+}
+
+.hero-runner.shielded {
+  filter: drop-shadow(0 0 15px rgba(48,187,255,0.9));
+}
+
+/* Stronger collectible/danger separation */
+.runner-object.collect {
+  animation: collectFloat 720ms ease-in-out infinite alternate;
+}
+
+.runner-object.star {
+  box-shadow: 0 0 0 7px rgba(31,188,91,0.18), 0 0 34px rgba(255,222,59,0.7) !important;
+}
+
+.runner-object.heroBadge {
+  box-shadow: 0 0 0 8px rgba(30,139,255,0.18), 0 0 38px rgba(43,151,255,0.74) !important;
+}
+
+.runner-object.school-obstacle {
+  outline: 8px solid #ef233c !important;
+  box-shadow:
+    0 0 0 9px rgba(239,35,60,0.18),
+    0 0 32px rgba(239,35,60,0.45),
+    0 16px 22px rgba(94,12,23,0.22) !important;
+}
+
+.runner-object.school-obstacle::before {
+  inset: -19px;
+  border: 4px dashed rgba(255,255,255,0.96);
+  background: radial-gradient(circle, rgba(239,35,60,0.28), rgba(239,35,60,0.07) 58%, transparent 72%);
+  animation: dangerRipple 760ms ease-in-out infinite alternate;
+}
+
+.runner-object.school-obstacle .object-label {
+  min-width: 78px;
+  background: #e60026 !important;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  box-shadow: 0 6px 15px rgba(158,0,28,0.30);
+}
+
+.clarity-strip .bad,
+.legend-bad {
+  background: #e60026 !important;
+  border: 2px solid #ffffff;
+}
+
+.doctor-winnie-cameo {
+  animation: winniePop 2.2s ease both;
+  filter: drop-shadow(0 10px 18px rgba(86,49,22,0.28));
+}
+
+@keyframes ovalRush {
+  from { background-position-y: 0; }
+  to { background-position-y: 82px; }
+}
+
+@keyframes speedHaze {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 0, 120px 0; }
+}
+
+@keyframes grassPulse {
+  from { filter: saturate(0.98) brightness(1); }
+  to { filter: saturate(1.08) brightness(1.04); }
+}
+
+@keyframes fenceDrift {
+  from { transform: translateX(-4px) scale(1); }
+  to { transform: translateX(4px) scale(1.01); }
+}
+
+@keyframes sceneryLeft {
+  from { transform: translateX(-3px) scale(1); }
+  to { transform: translateX(7px) scale(1.03); }
+}
+
+@keyframes sceneryRight {
+  from { transform: translateX(3px) scale(0.82); }
+  to { transform: translateX(-6px) scale(0.85); }
+}
+
+@keyframes hallParallax {
+  from { transform: translateX(-4px) scale(0.99); }
+  to { transform: translateX(5px) scale(1.015); }
+}
+
+@keyframes cloudDrift {
+  from { transform: translateX(0); }
+  to { transform: translateX(420px); }
+}
+
+@keyframes runnerBob {
+  from { transform: translateY(0) scaleY(1); }
+  to { transform: translateY(-8px) scaleY(0.985); }
+}
+
+@keyframes runnerTilt {
+  from { transform: rotate(-1.5deg); }
+  to { transform: rotate(1.5deg); }
+}
+
+@keyframes shadowStride {
+  from { transform: translateX(-50%) scaleX(1); opacity: 0.23; }
+  to { transform: translateX(-50%) scaleX(0.78); opacity: 0.16; }
+}
+
+@keyframes dustPuff {
+  0% { transform: translateX(-50%) translateY(4px) scale(0.72); opacity: 0; }
+  34% { opacity: 0.55; }
+  100% { transform: translateX(-50%) translateY(18px) scale(1.24); opacity: 0; }
+}
+
+@keyframes capeFlutter {
+  from { transform: rotate(-4deg) skewY(-2deg); }
+  to { transform: rotate(7deg) skewY(4deg); }
+}
+
+@keyframes collectFloat {
+  from { filter: drop-shadow(0 12px 14px rgba(33,68,92,0.22)); }
+  to { filter: drop-shadow(0 18px 18px rgba(33,68,92,0.32)) brightness(1.08); }
+}
+
+@keyframes dangerRipple {
+  from { transform: scale(0.96); opacity: 0.72; }
+  to { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes winniePop {
+  0% { transform: translateY(-16px) scale(0.72); opacity: 0; }
+  18% { transform: translateY(0) scale(1.08); opacity: 1; }
+  72% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-12px) scale(0.88); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .school-stage::before,
+  .school-stage::after,
+  .school-stage .oval-perspective,
+  .school-stage .fence,
+  .school-stage .gumtree,
+  .school-stage .hall,
+  .school-stage .sun::after,
+  .hero-runner.running .hero-sprite-wrap,
+  .hero-runner.running .hero-sprite,
+  .hero-runner.running .hero-shadow,
+  .hero-runner.running::after,
+  .hero-runner.super .hero-cape,
+  .runner-object.collect,
+  .runner-object.school-obstacle::before,
+  .doctor-winnie-cameo {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

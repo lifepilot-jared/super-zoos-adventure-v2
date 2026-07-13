@@ -1,0 +1,73 @@
+/* v0.6 Step 3: normal -> super suit -> full aura character states */
+
+.hero-sprite {
+  object-fit: contain;
+  object-position: center bottom;
+  transition: opacity 160ms ease, transform 180ms ease, filter 180ms ease;
+}
+
+.hero-sprite.changing-character-form {
+  opacity: 0.18;
+  transform: scale(1.08);
+}
+
+.hero-sprite.using-character-fallback {
+  opacity: 0.96;
+}
+
+.hero-runner.normal .hero-sprite {
+  filter: drop-shadow(0 14px 12px rgba(31, 77, 109, 0.24));
+}
+
+.hero-runner.super:not(.shielded) .hero-sprite {
+  filter:
+    drop-shadow(0 14px 13px rgba(23, 82, 170, 0.32))
+    drop-shadow(0 0 12px rgba(55, 164, 255, 0.38));
+}
+
+.hero-runner.shielded .hero-sprite {
+  filter:
+    drop-shadow(0 16px 14px rgba(17, 70, 155, 0.34))
+    drop-shadow(0 0 20px rgba(67, 203, 255, 0.9));
+  animation: fullAuraLift 520ms ease-in-out infinite alternate;
+}
+
+.hero-runner.shielded .hero-sprite-wrap::after {
+  content: "FULL POWER";
+  position: absolute;
+  left: 50%;
+  top: -22px;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #58d7ff, #176cd8);
+  color: white;
+  font-size: clamp(0.58rem, 1.5vw, 0.78rem);
+  font-weight: 1000;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  box-shadow: 0 7px 18px rgba(15, 93, 176, 0.28);
+}
+
+.hero-runner.peter.shielded .hero-sprite-wrap::after {
+  content: "SUPER PETER — FULL POWER";
+}
+
+.hero-runner.judy.shielded .hero-sprite-wrap::after {
+  content: "SUPER JUDY — FULL POWER";
+  background: linear-gradient(180deg, #ff8ac0, #db3f8b);
+}
+
+@keyframes fullAuraLift {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-5px) scale(1.035); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-sprite,
+  .hero-runner.shielded .hero-sprite {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,32 @@
+/* Ensure the v1 campus replaces—not stacks over—the original prototype scenery. */
+.school-route-v10-active > .sky,
+.school-route-v10-active > .sun,
+.school-route-v10-active > .hall,
+.school-route-v10-active > .gumtree,
+.school-route-v10-active > .fence {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* The old oval remains only as a faint collision/perspective guide. */
+.school-route-v10-active > .oval-perspective {
+  opacity: .12 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Replace the stale internal prototype label without altering gameplay code. */
+.version-chip {
+  font-size: 0 !important;
+}
+.version-chip::after {
+  content: "V1.0 SCHOOL ROUTE";
+  font-size: .72rem;
+}
+
+/* Keep controls clear of the diagnostic card on iPad. */
+@media (max-width: 1100px) and (orientation: landscape) {
+  .deployment-verification {
+    max-width: 310px;
+  }
+}

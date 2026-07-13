@@ -1,0 +1,154 @@
+/* v1.3 — cinematic chase-camera and gameplay readability pass */
+
+/* Lower chase camera: keep Peter near the bottom and preserve a long view ahead. */
+.school-stage.school-route-v10-active {
+  perspective: 1200px;
+  background: linear-gradient(180deg, #65bee7 0 31%, #d9eff4 31% 36%, #6db768 36% 100%) !important;
+}
+
+.school-route-v10-active .campus-far-v10 {
+  transform: translateY(-2%) scale(.9);
+  transform-origin: 50% 35%;
+  filter: saturate(.92) contrast(.96);
+}
+
+.school-route-v10-active .campus-mid-v10 {
+  opacity: .72;
+  filter: saturate(.85) blur(.15px);
+}
+
+/* Clean wide route. No sports-field crosshatching. */
+.school-route-v10-active .oval-grass-v10 {
+  left: 5%;
+  right: 5%;
+  top: 35%;
+  bottom: -10%;
+  clip-path: polygon(31% 0,69% 0,100% 100%,0 100%);
+  background:
+    linear-gradient(90deg, rgba(18,82,46,.22), transparent 12%, transparent 88%, rgba(18,82,46,.22)),
+    linear-gradient(180deg,#6fc56c 0%,#47a957 52%,#287942 100%);
+  box-shadow: inset 0 16px 26px rgba(255,255,255,.12), inset 0 -34px 48px rgba(15,74,40,.28);
+}
+
+.school-route-v10-active .oval-lane-grid-v10 {
+  left: 5%;
+  right: 5%;
+  top: 35%;
+  bottom: -10%;
+  clip-path: polygon(31% 0,69% 0,100% 100%,0 100%);
+  background:
+    linear-gradient(73deg, transparent 34.1%, rgba(242,247,230,.7) 34.25%, rgba(242,247,230,.7) 34.65%, transparent 34.8%),
+    linear-gradient(107deg, transparent 65.2%, rgba(242,247,230,.7) 65.35%, rgba(242,247,230,.7) 65.75%, transparent 65.9%),
+    linear-gradient(90deg, rgba(255,255,255,.025), rgba(255,255,255,.08) 50%, rgba(255,255,255,.025));
+  animation: none !important;
+}
+
+/* Remove distracting speed stripes and white edge grids. */
+.school-route-v10-active .oval-edge-v10,
+.school-route-v10-active .foreground-blur-v10,
+.school-route-v10-active > .oval-perspective {
+  display: none !important;
+}
+
+/* Keep static campus scenery outside the playable road. */
+.school-route-v10-active .court-zone-v10,
+.school-route-v10-active .court-hoop-v10 {
+  left: -5%;
+  width: 24%;
+  opacity: .48 !important;
+}
+.school-route-v10-active .playground-zone-v10,
+.school-route-v10-active .playground-tower-v10,
+.school-route-v10-active .playground-slide-v10,
+.school-route-v10-active .shade-sails-v10 {
+  right: -5%;
+  opacity: .48 !important;
+}
+
+/* Only quiet edge scenery is allowed to pass the camera. */
+.school-route-v10-active .prop-school-sign-v10,
+.school-route-v10-active .prop-bench-v10,
+.school-route-v10-active .prop-basketball-hoop-v10,
+.school-route-v10-active .prop-play-tower-v10,
+.school-route-v10-active .prop-shade-sail-v10,
+.school-route-v10-active .prop-drink-fountain-v10 {
+  display: none !important;
+}
+
+.school-route-v10-active .prop-gum-tree-v10,
+.school-route-v10-active .prop-fence-panel-v10 {
+  opacity: .38 !important;
+  filter: saturate(.72) brightness(.88) blur(.3px);
+}
+
+/* Push all passing scenery beyond the gameplay corridor. */
+.school-route-v10-active .route-left-v10 {
+  margin-left: -18% !important;
+}
+.school-route-v10-active .route-right-v10 {
+  margin-left: 18% !important;
+}
+
+/* Lower, slightly smaller player creates a proper behind-the-runner composition. */
+.school-route-v10-active .peter-runner {
+  bottom: 2.2% !important;
+  width: clamp(96px,15.5vw,158px) !important;
+  height: clamp(134px,22vw,214px) !important;
+}
+
+.school-route-v10-active .peter-shadow {
+  width: 68%;
+  opacity: .72;
+}
+
+/* Gameplay objects are visually dominant and sharply readable. */
+.school-route-v10-active .runner-object {
+  filter: drop-shadow(0 14px 10px rgba(14,43,62,.36));
+}
+.school-route-v10-active .runner-object::before {
+  background: rgba(255,255,255,.93);
+  box-shadow: 0 0 0 2px rgba(20,70,96,.08);
+}
+.school-route-v10-active .runner-object.collect {
+  outline-width: 6px;
+}
+.school-route-v10-active .runner-object.danger {
+  outline-width: 8px;
+  box-shadow: 0 0 0 7px rgba(219,45,45,.17);
+}
+
+/* Fade far scenery into atmospheric depth. */
+.school-route-v10-active .living-school-world-v10::after {
+  content: "";
+  position: absolute;
+  inset: 28% 0 auto;
+  height: 18%;
+  pointer-events: none;
+  background: linear-gradient(180deg,rgba(218,241,246,.78),rgba(218,241,246,0));
+  z-index: 5;
+}
+
+/* Keep route labels brief and unobtrusive. */
+.school-route-v10-active .school-zone-label-v11 {
+  top: 34%;
+  padding: 5px 11px;
+  font-size: clamp(.52rem,1.1vw,.72rem);
+  opacity: .76;
+}
+
+/* Make the internal version chip match the deployed release. */
+.version-chip {
+  font-size: 0 !important;
+}
+.version-chip::after {
+  content: "V1.3 CHASE CAMERA";
+  font-size: .72rem;
+}
+
+@media (max-width: 1100px) and (orientation: landscape) {
+  .school-route-v10-active .peter-runner {
+    bottom: 1.5% !important;
+    width: clamp(90px,13.8vw,142px) !important;
+    height: clamp(126px,20vw,196px) !important;
+  }
+}

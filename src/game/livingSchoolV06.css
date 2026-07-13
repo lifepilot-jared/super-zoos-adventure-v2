@@ -1,0 +1,283 @@
+/* Super Zoos Adventure v0.6 — Step 2: The Living School
+   Branch-only visual foundation. No gameplay/collision rules are changed here. */
+
+.school-stage {
+  --horizon-width: 42%;
+  --route-near-width: 96%;
+  --route-far-width: 42%;
+  background:
+    linear-gradient(180deg, #79d8ff 0 36%, #dff8ff 36% 43%, #74cb69 43% 100%) !important;
+  perspective: 1100px;
+  isolation: isolate;
+}
+
+/* Broader camera: reduce the tunnel effect and keep all three lanes readable. */
+.school-stage .oval-perspective {
+  left: 1.5% !important;
+  right: 1.5% !important;
+  bottom: -4% !important;
+  height: 70% !important;
+  clip-path: polygon(29% 0, 71% 0, 100% 100%, 0 100%) !important;
+  border-radius: 46px 46px 0 0 !important;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.04) 0 27px,
+      rgba(255,255,255,0.32) 27px 32px,
+      rgba(255,255,255,0.04) 32px 62px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(18,109,49,0.05) 0 48px,
+      rgba(255,255,255,0.05) 48px 96px
+    ),
+    linear-gradient(180deg, #91df7e 0%, #52b95e 54%, #278847 100%) !important;
+  box-shadow:
+    inset 0 24px 32px rgba(255,255,255,0.2),
+    inset 0 -40px 48px rgba(18,91,43,0.22),
+    0 -10px 34px rgba(58,145,81,0.16) !important;
+}
+
+.school-stage .oval-perspective::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 42px,
+      rgba(255,255,255,0.62) 42px 48px,
+      transparent 48px 94px
+    );
+  opacity: 0.78;
+  animation: livingSchoolGroundRush 680ms linear infinite;
+}
+
+.school-stage .oval-perspective::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.13), transparent 18%, transparent 82%, rgba(255,255,255,0.13)),
+    linear-gradient(180deg, rgba(255,255,255,0.12), transparent 40%);
+  pointer-events: none;
+}
+
+/* Wider lane dividers that stay separated at the horizon. */
+.school-stage .lane-line {
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 1.5% !important;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.44), rgba(255,255,255,0.78)) !important;
+  box-shadow: 0 0 8px rgba(255,255,255,0.24);
+}
+
+.school-stage .lane-line.left {
+  left: 40.5% !important;
+  transform: skewX(-13deg) !important;
+}
+
+.school-stage .lane-line.right {
+  right: 40.5% !important;
+  transform: skewX(13deg) !important;
+}
+
+.school-stage .horizon {
+  left: 29% !important;
+  right: 29% !important;
+  top: -1% !important;
+  height: 6px !important;
+  background: rgba(255,255,255,0.82) !important;
+  box-shadow: 0 0 16px rgba(255,255,255,0.45);
+}
+
+/* Original lightweight Australian school skyline. */
+.school-stage .sky::before,
+.school-stage .sky::after {
+  content: "";
+  position: absolute;
+  top: 46%;
+  width: 31%;
+  height: 34%;
+  border-radius: 18px 18px 2px 2px;
+  border: 3px solid rgba(255,255,255,0.68);
+  box-shadow: 0 10px 20px rgba(35,83,112,0.15);
+}
+
+.school-stage .sky::before {
+  left: -3%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 25px, rgba(101,178,216,0.68) 25px 38px),
+    linear-gradient(180deg, #f5d89b 0 68%, #b86d42 68% 100%);
+  animation: livingSchoolLeftParallax 4.2s ease-in-out infinite alternate;
+}
+
+.school-stage .sky::after {
+  right: -3%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 30px, rgba(108,180,219,0.66) 30px 43px),
+    linear-gradient(180deg, #f0c988 0 68%, #a95e3d 68% 100%);
+  animation: livingSchoolRightParallax 4.8s ease-in-out infinite alternate;
+}
+
+/* School location signs: clear, familiar, not cluttered. */
+.school-stage .fence::before {
+  content: "PLAYGROUND     CANTEEN     LIBRARY     BASKETBALL COURT";
+  position: absolute;
+  left: 50%;
+  top: -31px;
+  transform: translateX(-50%);
+  width: min(92%, 760px);
+  padding: 6px 14px;
+  overflow: hidden;
+  border: 3px solid rgba(255,255,255,0.9);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  color: #245f83;
+  font-size: clamp(0.56rem, 1.45vw, 0.82rem);
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 7px 16px rgba(28,81,115,0.18);
+}
+
+/* Shade sails and playground silhouettes. */
+.school-stage .hall {
+  left: 64% !important;
+  top: 29% !important;
+  width: 25% !important;
+  height: 11% !important;
+  z-index: 1;
+}
+
+.school-stage .hall::after {
+  content: "SCHOOL HALL";
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.9);
+  color: #8a4a29;
+  font-size: clamp(0.48rem, 1.2vw, 0.7rem);
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.school-stage .gumtree {
+  z-index: 2;
+  filter: drop-shadow(0 9px 8px rgba(26,76,48,0.18));
+}
+
+.school-stage .gumtree.left {
+  left: 5% !important;
+  transform-origin: bottom center;
+  animation: livingSchoolTreeLeft 3.7s ease-in-out infinite alternate;
+}
+
+.school-stage .gumtree.right {
+  right: 7% !important;
+  transform-origin: bottom center;
+  animation: livingSchoolTreeRight 4.1s ease-in-out infinite alternate;
+}
+
+/* Fast foreground edges create stronger depth without adding heavy images. */
+.school-stage::before {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 57%;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(106deg, transparent 0 82px, rgba(255,255,255,0.12) 82px 88px, transparent 88px 164px),
+    linear-gradient(90deg, rgba(20,103,47,0.28), transparent 13%, transparent 87%, rgba(20,103,47,0.28));
+  animation: livingSchoolEdgeRush 1.05s linear infinite;
+}
+
+.school-stage::after {
+  content: "";
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 4% 100%, rgba(37,118,50,0.62) 0 12%, transparent 13%),
+    radial-gradient(ellipse at 96% 100%, rgba(37,118,50,0.62) 0 12%, transparent 13%);
+}
+
+/* Keep gameplay objects and hero above the decorative layers. */
+.school-stage .runner-object { z-index: 12 !important; }
+.school-stage .peter-runner { z-index: 16 !important; }
+.school-stage .clarity-strip,
+.school-stage .pause-button,
+.school-stage .floating-message { z-index: 30 !important; }
+
+@keyframes livingSchoolGroundRush {
+  from { background-position-y: 0; }
+  to { background-position-y: 94px; }
+}
+
+@keyframes livingSchoolEdgeRush {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 170px 0, 0 0; }
+}
+
+@keyframes livingSchoolLeftParallax {
+  from { transform: translateX(-8px) scale(0.98); }
+  to { transform: translateX(7px) scale(1.02); }
+}
+
+@keyframes livingSchoolRightParallax {
+  from { transform: translateX(8px) scale(1.02); }
+  to { transform: translateX(-7px) scale(0.98); }
+}
+
+@keyframes livingSchoolTreeLeft {
+  from { transform: translateX(-4px) rotate(-1deg) scale(1); }
+  to { transform: translateX(8px) rotate(1.2deg) scale(1.025); }
+}
+
+@keyframes livingSchoolTreeRight {
+  from { transform: translateX(5px) rotate(1deg) scale(0.84); }
+  to { transform: translateX(-7px) rotate(-1.1deg) scale(0.87); }
+}
+
+@media (orientation: landscape) {
+  .school-stage .oval-perspective {
+    clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%) !important;
+  }
+
+  .school-stage .horizon {
+    left: 25% !important;
+    right: 25% !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .school-stage .fence::before {
+    content: "PLAYGROUND  •  CANTEEN  •  COURT";
+  }
+
+  .school-stage .sky::before,
+  .school-stage .sky::after {
+    width: 34%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .school-stage *,
+  .school-stage::before,
+  .school-stage::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

@@ -1,0 +1,174 @@
+/* v0.8 — true passing scenery and wider school oval motion */
+
+.living-school-world-v08,
+.living-school-world-v08 .school-layer,
+.ground-rush-v08,
+.winnie-action-banner-v08 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.living-school-world-v08 {
+  z-index: 1;
+  overflow: hidden;
+}
+
+.far-school-layer-v08 { z-index: 1; }
+.mid-school-layer-v08 { z-index: 2; }
+.passing-school-layer-v08 { z-index: 5; overflow: hidden; }
+.near-school-layer-v08 { z-index: 7; overflow: hidden; }
+
+.school-stage .oval-perspective {
+  clip-path: polygon(23% 0, 77% 0, 100% 100%, 0 100%) !important;
+}
+
+.school-building-v08 {
+  position: absolute;
+  top: 15%;
+  width: 20%;
+  height: 14%;
+  display: grid;
+  place-items: end center;
+  padding-bottom: 8px;
+  border: 4px solid rgba(255,255,255,.9);
+  border-radius: 16px 16px 4px 4px;
+  color: #70411f;
+  background: repeating-linear-gradient(90deg,#eaf8ff 0 16%,#8cc3d8 16% 19%,#efd29a 19% 35%);
+  box-shadow: 0 10px 0 #9d5f36,0 16px 22px rgba(41,79,102,.18);
+  font-weight: 1000;
+  font-size: clamp(.55rem,1.3vw,.9rem);
+}
+
+.school-building-v08::before {
+  content:"";
+  position:absolute;
+  left:-5%;right:-5%;top:-32%;height:36%;
+  clip-path:polygon(8% 100%,18% 30%,82% 30%,92% 100%);
+  background:#b94f3e;
+  border:3px solid rgba(255,255,255,.75);
+}
+
+.canteen-building-v08 { left: 3%; }
+.library-building-v08 { right: 3%; }
+.hall-building-v08 { left: 40%; top: 10%; width: 20%; transform: scale(.82); }
+
+.shade-sail-v08 {
+  position:absolute;left:4%;top:31%;width:22%;height:12%;
+  clip-path:polygon(4% 20%,96% 0,78% 100%,18% 88%);
+  background:linear-gradient(135deg,#ffd763,#ff9e3d);
+  filter:drop-shadow(0 8px 8px rgba(69,89,102,.18));
+}
+
+.playground-v08 {
+  position:absolute;right:3%;top:29%;width:24%;height:15%;
+  display:grid;place-items:end center;padding-bottom:3px;
+  color:#164c70;font-weight:1000;font-size:clamp(.5rem,1.1vw,.78rem);
+  background:
+    linear-gradient(115deg,transparent 0 22%,#f5c342 22% 29%,transparent 29% 44%,#ef5b5b 44% 52%,transparent 52%),
+    linear-gradient(65deg,transparent 0 47%,#2f78d0 47% 55%,transparent 55%);
+  border-bottom:6px solid #286b95;
+}
+
+.basketball-court-v08 {
+  position:absolute;left:2%;bottom:15%;width:24%;height:16%;
+  display:grid;place-items:center;transform:skewY(-7deg);
+  border:4px solid #fff;
+  background:radial-gradient(circle at 50% 50%,transparent 0 18%,rgba(255,255,255,.72) 19% 21%,transparent 22%),#d56d44;
+  color:#fff;font-weight:1000;font-size:clamp(.45rem,1vw,.68rem);opacity:.9;
+}
+
+.passing-prop-v08 {
+  position:absolute;
+  top:37%;
+  left:50%;
+  width:clamp(30px,5vw,74px);
+  min-height:clamp(38px,7vw,92px);
+  display:grid;
+  place-items:center;
+  transform-origin:center bottom;
+  opacity:0;
+  animation-duration:var(--pass-duration,4.8s);
+  animation-delay:var(--pass-delay,0s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+  font-weight:1000;
+  text-align:center;
+}
+
+.left-passing-v08 { animation-name:passLeftV08; }
+.right-passing-v08 { animation-name:passRightV08; }
+
+.gum-tree-v08 { font-size:clamp(1.5rem,4.7vw,4.5rem); filter:drop-shadow(0 8px 5px rgba(30,73,44,.24)); }
+.school-sign-v08 { padding:5px 8px;border-radius:8px;background:#fff;color:#245c7b;border:3px solid #2a7ba6;font-size:clamp(.48rem,1vw,.72rem); }
+.bench-prop-v08 { color:#89572e;font-size:clamp(1.4rem,4vw,3.6rem); }
+.fence-post-v08 { width:10px;min-height:70px;background:#f8f8f8;box-shadow:18px 0 0 #f8f8f8,-18px 0 0 #f8f8f8; }
+.shade-prop-v08 { color:#ffb33a;font-size:clamp(1.5rem,4vw,3.7rem); }
+
+.foreground-speed-edge-v08 {
+  position:absolute;
+  bottom:-8%;
+  width:16%;
+  height:70%;
+  opacity:.9;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.88) 0 9px,transparent 9px 36px);
+  animation:speedEdgeV08 340ms linear infinite;
+}
+.speed-edge-left-v08 { left:0; transform:skewX(-8deg); }
+.speed-edge-right-v08 { right:0; transform:skewX(8deg); }
+
+.track-stream-v08 {
+  position:absolute;
+  bottom:-5%;
+  width:24%;
+  height:66%;
+  opacity:.85;
+  background:repeating-linear-gradient(to bottom,transparent 0 24px,rgba(255,255,255,.75) 24px 31px,transparent 31px 54px);
+  animation:trackRushV08 360ms linear infinite;
+}
+.track-stream-left-v08 { left:8%; clip-path:polygon(72% 0,100% 0,48% 100%,0 100%); }
+.track-stream-right-v08 { right:8%; clip-path:polygon(0 0,28% 0,100% 100%,52% 100%); }
+
+.ground-rush-v08 {
+  z-index:6;
+  left:8%;right:8%;top:37%;bottom:-5%;
+  clip-path:polygon(23% 0,77% 0,100% 100%,0 100%);
+  background:repeating-linear-gradient(to bottom,transparent 0 34px,rgba(255,255,255,.38) 34px 41px,transparent 41px 78px);
+  animation:groundRushV08 420ms linear infinite;
+}
+
+.winnie-action-banner-v08 {
+  z-index:40;
+  inset:auto 50% 68% auto;
+  width:max-content;max-width:84%;height:auto;
+  transform:translateX(50%) scale(.7);
+  padding:12px 20px;border:4px solid #fff;border-radius:999px;
+  background:#f04b32;color:#fff;font-size:clamp(.82rem,2vw,1.25rem);font-weight:1000;
+  opacity:0;box-shadow:0 12px 28px rgba(111,19,9,.35);
+}
+.winnie-event-active-v08 .winnie-action-banner-v08 { animation:winnieBannerV08 2.15s ease both; }
+
+@keyframes passLeftV08 {
+  0% { transform:translate(-20px,-8px) scale(.16); opacity:0; }
+  10% { opacity:.75; }
+  72% { opacity:1; }
+  100% { transform:translate(-48vw,62vh) scale(2.5); opacity:0; }
+}
+@keyframes passRightV08 {
+  0% { transform:translate(20px,-8px) scale(.16); opacity:0; }
+  10% { opacity:.75; }
+  72% { opacity:1; }
+  100% { transform:translate(48vw,62vh) scale(2.5); opacity:0; }
+}
+@keyframes speedEdgeV08 { to { background-position-y:72px; } }
+@keyframes trackRushV08 { to { background-position-y:54px; } }
+@keyframes groundRushV08 { to { background-position-y:78px; } }
+@keyframes winnieBannerV08 {
+  0% { opacity:0;transform:translateX(50%) translateY(-18px) scale(.65); }
+  15%,76% { opacity:1;transform:translateX(50%) translateY(0) scale(1); }
+  100% { opacity:0;transform:translateX(50%) translateY(-10px) scale(.82); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-school-world-v08 * { animation-duration:4s !important; }
+}

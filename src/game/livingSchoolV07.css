@@ -1,0 +1,219 @@
+/* v0.7 — unmistakable school oval and forward-motion pass */
+
+.school-stage {
+  background: linear-gradient(180deg, #7edcff 0 32%, #dff8ff 32% 42%, #70cf69 42% 100%) !important;
+}
+
+.living-school-world-v07,
+.school-layer,
+.ground-rush-v07,
+.winnie-action-banner-v07 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.living-school-world-v07 { z-index: 1; overflow: hidden; }
+.school-layer { overflow: hidden; }
+.far-school-layer { z-index: 1; }
+.mid-school-layer { z-index: 2; }
+.near-school-layer { z-index: 7; }
+
+.school-building {
+  position: absolute;
+  top: 18%;
+  width: 22%;
+  height: 17%;
+  display: grid;
+  place-items: end center;
+  padding-bottom: 10px;
+  border: 5px solid rgba(255,255,255,0.9);
+  border-radius: 18px 18px 5px 5px;
+  color: #70411f;
+  font-weight: 1000;
+  font-size: clamp(0.6rem, 1.6vw, 1rem);
+  letter-spacing: 0.08em;
+  background:
+    repeating-linear-gradient(90deg, #d9eff8 0 16%, #7fb8cf 16% 19%, #efd29a 19% 35%),
+    linear-gradient(#f3d8a3, #c78349);
+  box-shadow: 0 13px 0 #9d5f36, 0 18px 24px rgba(41,79,102,0.2);
+}
+
+.school-building::before {
+  content: "";
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  top: -34%;
+  height: 38%;
+  clip-path: polygon(8% 100%, 18% 30%, 82% 30%, 92% 100%);
+  background: #b94f3e;
+  border: 4px solid rgba(255,255,255,0.75);
+}
+
+.canteen-building { left: 2%; transform: scale(0.9); }
+.library-building { right: 2%; transform: scale(0.9); }
+.hall-building-v07 { left: 39%; width: 22%; top: 13%; transform: scale(0.82); }
+
+.shade-sail-v07 {
+  position: absolute;
+  left: 5%;
+  top: 34%;
+  width: 24%;
+  height: 14%;
+  clip-path: polygon(4% 20%, 96% 0, 78% 100%, 18% 88%);
+  background: linear-gradient(135deg, #ffd763, #ff9e3d);
+  filter: drop-shadow(0 10px 8px rgba(69,89,102,0.2));
+  animation: sailBreatheV07 2.2s ease-in-out infinite alternate;
+}
+
+.playground-v07 {
+  position: absolute;
+  right: 3%;
+  top: 32%;
+  width: 25%;
+  height: 17%;
+  display: grid;
+  place-items: end center;
+  padding-bottom: 4px;
+  color: #164c70;
+  font-size: clamp(0.55rem, 1.3vw, 0.82rem);
+  font-weight: 1000;
+  background:
+    linear-gradient(115deg, transparent 0 22%, #f5c342 22% 29%, transparent 29% 44%, #ef5b5b 44% 52%, transparent 52%),
+    linear-gradient(65deg, transparent 0 47%, #2f78d0 47% 55%, transparent 55%),
+    radial-gradient(circle at 68% 34%, #61c97d 0 13%, transparent 14%);
+  border-bottom: 7px solid #286b95;
+  animation: playgroundSwayV07 2.6s ease-in-out infinite alternate;
+}
+
+.basketball-court-v07 {
+  position: absolute;
+  left: 1%;
+  bottom: 14%;
+  width: 27%;
+  height: 18%;
+  display: grid;
+  place-items: center;
+  transform: skewY(-7deg);
+  border: 4px solid #f5f5f5;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 18%, rgba(255,255,255,0.72) 19% 21%, transparent 22%),
+    linear-gradient(90deg, transparent 49%, rgba(255,255,255,0.8) 49% 51%, transparent 51%),
+    #d56d44;
+  color: #fff;
+  font-size: clamp(0.48rem, 1.2vw, 0.72rem);
+  font-weight: 1000;
+  opacity: 0.92;
+  animation: courtPassV07 1.7s ease-in-out infinite alternate;
+}
+
+.gum-row-v07 {
+  position: absolute;
+  top: 26%;
+  width: 18%;
+  height: 28%;
+  background:
+    radial-gradient(ellipse at 18% 22%, #55a96e 0 14%, transparent 15%),
+    radial-gradient(ellipse at 47% 17%, #3d915d 0 16%, transparent 17%),
+    radial-gradient(ellipse at 76% 25%, #69b97c 0 15%, transparent 16%),
+    linear-gradient(86deg, transparent 0 17%, #8e6338 17% 20%, transparent 20% 46%, #8e6338 46% 49%, transparent 49% 75%, #8e6338 75% 78%, transparent 78%);
+  filter: drop-shadow(0 12px 8px rgba(29,77,48,0.2));
+}
+.gum-row-left { left: 1%; animation: scenerySweepLeftV07 2.6s ease-in-out infinite alternate; }
+.gum-row-right { right: 1%; transform: scaleX(-1); animation: scenerySweepRightV07 2.9s ease-in-out infinite alternate; }
+
+.foreground-fence-v07 {
+  position: absolute;
+  bottom: 0;
+  width: 13%;
+  height: 42%;
+  background:
+    repeating-linear-gradient(90deg, rgba(250,250,250,0.95) 0 6px, transparent 6px 24px),
+    linear-gradient(180deg, transparent 0 19%, rgba(250,250,250,0.92) 19% 23%, transparent 23% 70%, rgba(250,250,250,0.92) 70% 74%, transparent 74%);
+  opacity: 0.9;
+}
+.fence-left-v07 { left: 0; transform: perspective(300px) rotateY(18deg); animation: fenceRushLeftV07 780ms linear infinite; }
+.fence-right-v07 { right: 0; transform: perspective(300px) rotateY(-18deg); animation: fenceRushRightV07 780ms linear infinite; }
+
+.track-stream-v07 {
+  position: absolute;
+  bottom: -4%;
+  width: 21%;
+  height: 62%;
+  opacity: 0.88;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 26px, rgba(255,255,255,0.7) 26px 32px, transparent 32px 58px),
+    linear-gradient(90deg, rgba(233,239,184,0.2), rgba(255,255,255,0.72), rgba(233,239,184,0.2));
+  animation: trackRushV07 430ms linear infinite;
+}
+.track-stream-left { left: 10%; clip-path: polygon(72% 0, 100% 0, 48% 100%, 0 100%); }
+.track-stream-right { right: 10%; clip-path: polygon(0 0, 28% 0, 100% 100%, 52% 100%); }
+
+.sports-flags-v07 {
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  width: 62%;
+  height: 8%;
+  transform: translateX(-50%);
+  background:
+    repeating-linear-gradient(90deg, transparent 0 8%, #ef4e5b 8% 11%, transparent 11% 20%, #ffd53d 20% 23%, transparent 23% 32%, #2f8fe8 32% 35%, transparent 35% 44%);
+  clip-path: polygon(0 0, 100% 0, 100% 25%, 0 25%);
+  animation: flagsWaveV07 1.2s ease-in-out infinite alternate;
+}
+
+.ground-rush-v07 {
+  z-index: 6;
+  left: 10%;
+  right: 10%;
+  top: 39%;
+  bottom: -4%;
+  clip-path: polygon(31% 0, 69% 0, 100% 100%, 0 100%);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 42px, rgba(255,255,255,0.35) 42px 48px, transparent 48px 90px);
+  animation: groundRushV07 520ms linear infinite;
+}
+
+.winnie-action-banner-v07 {
+  z-index: 40;
+  inset: auto 50% 68% auto;
+  width: max-content;
+  max-width: 84%;
+  height: auto;
+  transform: translateX(50%) scale(0.7);
+  padding: 12px 20px;
+  border: 4px solid #fff;
+  border-radius: 999px;
+  background: #f04b32;
+  color: #fff;
+  font-size: clamp(0.82rem, 2.2vw, 1.3rem);
+  font-weight: 1000;
+  letter-spacing: 0.03em;
+  opacity: 0;
+  box-shadow: 0 12px 28px rgba(111,19,9,0.35);
+}
+
+.winnie-event-active-v07 .winnie-action-banner-v07 {
+  animation: winnieBannerV07 2.15s ease both;
+}
+
+@keyframes groundRushV07 { to { background-position-y: 90px; } }
+@keyframes trackRushV07 { to { background-position-y: 58px; } }
+@keyframes fenceRushLeftV07 { from { background-position-y: 0; } to { background-position-y: 96px; } }
+@keyframes fenceRushRightV07 { from { background-position-y: 48px; } to { background-position-y: 144px; } }
+@keyframes scenerySweepLeftV07 { from { transform: translateX(-5px) scale(0.95); } to { transform: translateX(10px) scale(1.04); } }
+@keyframes scenerySweepRightV07 { from { transform: translateX(5px) scaleX(-1) scale(0.96); } to { transform: translateX(-10px) scaleX(-1) scale(1.04); } }
+@keyframes sailBreatheV07 { from { transform: rotate(-1deg); } to { transform: rotate(1.4deg) translateY(-2px); } }
+@keyframes playgroundSwayV07 { from { transform: translateX(-3px); } to { transform: translateX(4px); } }
+@keyframes courtPassV07 { from { transform: skewY(-7deg) translateX(-3px); } to { transform: skewY(-7deg) translateX(5px); } }
+@keyframes flagsWaveV07 { from { transform: translateX(-50%) skewX(-2deg); } to { transform: translateX(-50%) skewX(3deg); } }
+@keyframes winnieBannerV07 {
+  0% { opacity: 0; transform: translateX(50%) translateY(-18px) scale(0.65); }
+  15%, 76% { opacity: 1; transform: translateX(50%) translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateX(50%) translateY(-10px) scale(0.82); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-school-world-v07 * { animation-duration: 4s !important; }
+}

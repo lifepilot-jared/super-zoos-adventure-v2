@@ -1,0 +1,217 @@
+/* v0.5.2 visible verification and motion repair */
+
+.deployment-verification {
+  position: fixed;
+  z-index: 5000;
+  left: 10px;
+  bottom: 10px;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 6px 10px;
+  max-width: min(94vw, 430px);
+  padding: 9px 11px;
+  border: 3px solid #ffffff;
+  border-radius: 18px;
+  background: rgba(10, 45, 77, 0.94);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(0, 32, 64, 0.34);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.deployment-verification strong {
+  color: #72e8ff;
+  letter-spacing: 0.04em;
+}
+
+.deployment-verification button {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #ffe966, #ffae2b);
+  color: #382200;
+  font-weight: 1000;
+}
+
+.deployment-verification span {
+  grid-column: 1 / -1;
+  color: #d9f7ff;
+}
+
+.version-chip {
+  font-size: 0 !important;
+}
+
+.version-chip::after {
+  content: "v0.5.2-live-check";
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+/* Fix: hero-sprite-wrap is on the same element, not a descendant. */
+.hero-runner.running.hero-sprite-wrap,
+.hero-runner.running .hero-sprite-wrap,
+.hero-runner.running .peter-body-art.hero-sprite-wrap {
+  animation: runnerBobStrong 280ms ease-in-out infinite alternate !important;
+}
+
+.hero-runner.running .hero-sprite {
+  animation: runnerStrideStrong 280ms ease-in-out infinite alternate !important;
+}
+
+.hero-runner.running .hero-shadow {
+  animation: shadowStrideStrong 280ms ease-in-out infinite alternate !important;
+}
+
+.hero-runner.running::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  bottom: 2%;
+  width: 120%;
+  height: 26%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.9) 0 6%, transparent 7%),
+    radial-gradient(circle at 42% 36%, rgba(255,255,255,0.72) 0 5%, transparent 6%),
+    radial-gradient(circle at 67% 58%, rgba(255,255,255,0.62) 0 5%, transparent 6%),
+    radial-gradient(circle at 84% 40%, rgba(255,255,255,0.48) 0 4%, transparent 5%);
+  animation: dustRush 520ms linear infinite;
+  pointer-events: none;
+}
+
+/* Strong moving sidelines: school fence, trees, canteen and sports flags. */
+.school-stage .sky::before,
+.school-stage .sky::after {
+  content: "";
+  position: absolute;
+  top: 29%;
+  width: 25%;
+  height: 18%;
+  border-radius: 12px 12px 0 0;
+  background:
+    linear-gradient(180deg, #f4d99b 0 64%, #bb7442 64%),
+    repeating-linear-gradient(90deg, transparent 0 18px, rgba(255,255,255,0.7) 18px 27px);
+  box-shadow: 0 8px 0 rgba(74,104,128,0.16);
+  opacity: 0.95;
+}
+
+.school-stage .sky::before {
+  left: -4%;
+  animation: schoolSideLeft 2.5s ease-in-out infinite alternate;
+}
+
+.school-stage .sky::after {
+  right: -3%;
+  animation: schoolSideRight 2.8s ease-in-out infinite alternate;
+}
+
+.school-stage .fence::before {
+  content: "CANTEEN   •   LIBRARY   •   OVAL";
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  transform: translateX(-50%);
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.94);
+  color: #285f83;
+  font-size: clamp(0.55rem, 1.5vw, 0.8rem);
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(31,85,119,0.18);
+}
+
+.school-stage .oval-perspective::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 30px,
+      rgba(255,255,255,0.52) 30px 36px,
+      transparent 36px 72px
+    );
+  animation: laneRushStrong 560ms linear infinite;
+  opacity: 0.9;
+}
+
+/* Make Dr Winnie impossible to miss when the cameo triggers. */
+.doctor-winnie-cameo {
+  z-index: 30 !important;
+  width: clamp(120px, 20vw, 220px) !important;
+  height: auto !important;
+  bottom: 24% !important;
+  transform: translateX(-50%) !important;
+  animation: winnieEntranceStrong 2.2s ease both !important;
+}
+
+.doctor-winnie-cameo img {
+  width: 100% !important;
+  filter: drop-shadow(0 16px 18px rgba(71,36,12,0.4));
+}
+
+.doctor-winnie-cameo::after {
+  content: "DR WINNIE DROPPED AN OBSTACLE!";
+  position: absolute;
+  left: 50%;
+  bottom: -34px;
+  transform: translateX(-50%);
+  min-width: 210px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #ff9a1f;
+  color: #3f2603;
+  border: 3px solid #ffffff;
+  font-size: clamp(0.62rem, 1.5vw, 0.82rem);
+  font-weight: 1000;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(147,79,8,0.28);
+}
+
+@keyframes runnerBobStrong {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-10px) scale(1.025); }
+}
+
+@keyframes runnerStrideStrong {
+  from { transform: rotate(-2.8deg) translateX(-2px); }
+  to { transform: rotate(2.8deg) translateX(2px); }
+}
+
+@keyframes shadowStrideStrong {
+  from { transform: translateX(-50%) scaleX(0.78); opacity: 0.34; }
+  to { transform: translateX(-50%) scaleX(1.04); opacity: 0.18; }
+}
+
+@keyframes dustRush {
+  from { transform: translateX(-58%) scale(0.88); opacity: 0.2; }
+  to { transform: translateX(-42%) scale(1.12); opacity: 0.72; }
+}
+
+@keyframes laneRushStrong {
+  from { background-position-y: 0; }
+  to { background-position-y: 72px; }
+}
+
+@keyframes schoolSideLeft {
+  from { transform: translateX(-8px) scale(0.96); }
+  to { transform: translateX(10px) scale(1.04); }
+}
+
+@keyframes schoolSideRight {
+  from { transform: translateX(10px) scale(1.04); }
+  to { transform: translateX(-8px) scale(0.96); }
+}
+
+@keyframes winnieEntranceStrong {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-40px) scale(0.55) rotate(-8deg); }
+  18% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.12) rotate(3deg); }
+  32%, 80% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-14px) scale(0.88); }
+}

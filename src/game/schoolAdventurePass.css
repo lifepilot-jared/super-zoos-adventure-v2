@@ -1,0 +1,338 @@
+.school-start-screen {
+  padding: clamp(8px, 2vw, 18px);
+}
+
+.school-start-card {
+  width: min(96%, 920px);
+  max-height: calc(100dvh - 178px);
+  overflow: auto;
+  gap: 13px;
+  padding: clamp(14px, 3vw, 26px);
+}
+
+.school-start-card h2 {
+  font-size: clamp(2rem, 5.4vw, 4.1rem);
+}
+
+.school-start-card p {
+  max-width: 58ch;
+}
+
+.mission-banner {
+  width: min(100%, 720px);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 4px solid rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  background: linear-gradient(180deg, #fff7d9, #ffeaa2);
+  box-shadow: 0 12px 26px rgba(137, 94, 20, 0.14);
+  text-align: left;
+}
+
+.mission-banner img {
+  width: clamp(58px, 9vw, 88px);
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.mission-banner strong {
+  display: block;
+  color: #573509;
+  font-size: clamp(0.98rem, 2.1vw, 1.2rem);
+  line-height: 1.15;
+}
+
+.mission-kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: #b65e12;
+  font-size: 0.78rem;
+  font-weight: 1000;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero-choice-grid {
+  width: min(100%, 680px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hero-choice {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  min-height: 150px;
+  padding: 12px;
+  border: 4px solid rgba(18, 105, 184, 0.18);
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff, #eef9ff);
+  color: #123a5a;
+  font-weight: 1000;
+  box-shadow: 0 12px 26px rgba(24, 76, 112, 0.15);
+}
+
+.hero-choice.selected {
+  border-color: #1c8dff;
+  box-shadow: 0 16px 34px rgba(18, 108, 209, 0.24), 0 0 0 6px rgba(63, 192, 255, 0.22);
+}
+
+.hero-choice img {
+  width: clamp(74px, 11vw, 112px);
+  height: clamp(74px, 11vw, 112px);
+  object-fit: contain;
+}
+
+.hero-choice-name {
+  font-size: clamp(1.02rem, 2.4vw, 1.22rem);
+}
+
+.hero-choice-role {
+  color: #426b84;
+  font-size: clamp(0.78rem, 2vw, 0.96rem);
+  line-height: 1.1;
+}
+
+.school-stage .hall {
+  width: 29%;
+  height: 13%;
+  background: linear-gradient(180deg, #f7d086, #cf8447);
+}
+
+.doctor-winnie-cameo {
+  position: absolute;
+  z-index: 12;
+  top: 66px;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: clamp(78px, 12vw, 122px);
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: doctorWinnieDash 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.doctor-winnie-cameo img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 16px rgba(91, 57, 11, 0.24));
+}
+
+.hero-runner {
+  bottom: 6%;
+}
+
+.hero-runner.running .hero-sprite-wrap {
+  animation: runningBob 0.6s ease-in-out infinite;
+}
+
+.hero-runner.running .hero-cape {
+  animation: capeFlutter 0.5s ease-in-out infinite;
+}
+
+@keyframes runningBob {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-8px) scaleY(0.98);
+  }
+}
+
+@keyframes capeFlutter {
+  0%, 100% {
+    transform: rotate(8deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(12deg) scaleY(1.05);
+  }
+}
+
+@keyframes doctorWinnieDash {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateX(-60px) scaleX(0.8);
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateX(60px) scaleX(0.8);
+  }
+}
+
+.hero-runner .hero-sprite-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 16px 16px rgba(31, 77, 109, 0.22));
+  transition: transform 82ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.hero-sprite {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero-letter {
+  position: absolute;
+  z-index: 8;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 30%;
+  aspect-ratio: 1;
+  border: 4px solid rgba(255, 255, 255, 0.94);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffe66d, #f3a92d);
+  color: #123a5a;
+  font-size: clamp(1.3rem, 4vw, 2.4rem);
+  font-weight: 1000;
+  box-shadow: 0 8px 16px rgba(34, 71, 109, 0.2);
+}
+
+.hero-cape {
+  position: absolute;
+  z-index: 1;
+  right: -16%;
+  top: 43%;
+  width: 70%;
+  height: 42%;
+  border-radius: 20% 85% 60% 40%;
+  opacity: 0;
+  transform: rotate(8deg);
+  background: linear-gradient(135deg, #164bb8, #37b9ff);
+  filter: drop-shadow(0 8px 10px rgba(20, 69, 128, 0.23));
+}
+
+.hero-runner.judy .hero-cape {
+  background: linear-gradient(135deg, #df2d82, #ff94c6);
+}
+
+.hero-runner.super .hero-cape {
+  opacity: 0.96;
+}
+
+.hero-runner.judy .hero-letter {
+  background: linear-gradient(180deg, #fff0f8, #ff86bd);
+}
+
+.runner-object.school-obstacle,
+.runner-object.danger.school-obstacle,
+.runner-object.red-ripple.school-obstacle {
+  outline: 6px solid rgba(255, 255, 255, 0.96) !important;
+  background: linear-gradient(180deg, #fff5d6, #e89c38) !important;
+  border-radius: 22px !important;
+  box-shadow:
+    0 0 0 6px rgba(255, 197, 83, 0.2),
+    0 18px 20px rgba(99, 65, 19, 0.24) !important;
+}
+
+.runner-object.school-obstacle::before {
+  inset: -15px !important;
+  border: 4px solid rgba(255, 255, 255, 0.92) !important;
+  border-radius: 24px !important;
+  background: rgba(255, 255, 255, 0.76) !important;
+}
+
+.runner-object.school-obstacle .object-symbol {
+  color: #5b3510 !important;
+  font-size: clamp(1.75rem, 4.4vw, 3rem) !important;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.42) !important;
+}
+
+.runner-object.school-obstacle .object-label {
+  background: #f39a26 !important;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 5px 14px rgba(143, 82, 13, 0.3);
+}
+
+.runner-object.backpack { background: linear-gradient(180deg, #ff9d7c, #d84b4b) !important; }
+.runner-object.books { background: linear-gradient(180deg, #f7dc6f, #3ca86e) !important; }
+.runner-object.bench { background: linear-gradient(180deg, #d9a066, #8b542d) !important; }
+.runner-object.trafficCone { background: linear-gradient(180deg, #ffc26a, #ef6b22) !important; border-radius: 34% !important; }
+.runner-object.basketball { background: radial-gradient(circle at 34% 30%, #ffc067, #ef7e24 62%, #a84c19) !important; border-radius: 50% !important; }
+
+.runner-object.bench .object-symbol {
+  font-size: clamp(2.4rem, 6vw, 4rem) !important;
+  transform: scaleX(1.2);
+}
+
+.runner-object.trafficCone .object-symbol,
+.runner-object.basketball .object-symbol {
+  font-size: clamp(2.2rem, 5.4vw, 3.5rem) !important;
+}
+
+.clarity-strip .bad,
+.legend-bad {
+  background: #f39a26 !important;
+  border: 2px solid #ffffff;
+  box-shadow: 0 8px 18px rgba(143, 82, 13, 0.22);
+}
+
+.clarity-strip .power,
+.legend-power {
+  background: #126bdd !important;
+}
+
+.hud span:first-child {
+  color: #126bdd;
+}
+
+@media (orientation: landscape) {
+  .school-start-card {
+    max-height: calc(100dvh - 150px);
+  }
+
+  .hero-choice {
+    min-height: 128px;
+  }
+
+  .doctor-winnie-cameo {
+    top: 54px;
+    right: 8px;
+    width: clamp(68px, 9vw, 104px);
+  }
+}
+
+@media (max-width: 620px) {
+  .school-start-card {
+    max-height: calc(100dvh - 142px);
+    gap: 10px;
+  }
+
+  .hero-choice-grid {
+    gap: 8px;
+  }
+
+  .hero-choice {
+    min-height: 126px;
+    padding: 9px;
+  }
+
+  .mission-banner {
+    padding: 8px 10px;
+  }
+
+  .doctor-winnie-cameo {
+    display: none;
+  }
+}
