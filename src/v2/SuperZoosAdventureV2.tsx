@@ -20,16 +20,16 @@ type GemState = { id: number; lane: Lane; progress: number; collected: boolean }
 type HeroVisual = {
   name: string;
   superName: string;
+  tagline: string;
   normalFrames: string[];
   superFrames: string[];
-  lookBack: string;
+  celebrationFrame: string;
+  cardFrame: string;
   fallback: string;
   accent: string;
 };
 
-const BASE_PATH = typeof window !== "undefined" && window.location.pathname.startsWith("/super-zoos-dash")
-  ? "/super-zoos-dash/"
-  : "/";
+const BASE_PATH = import.meta.env.BASE_URL || "/";
 const asset = (path: string) => `${BASE_PATH}${path.replace(/^\/+/, "")}`;
 const LANE_X: Record<Lane, number> = { [-1]: -1.9, [0]: 0, [1]: 1.9 };
 const SKY_PATTERN: Lane[] = [-1, 0, 1, 1, 0, -1, 0, 1, -1, 0];
@@ -46,26 +46,30 @@ const HEROES: Record<HeroId, HeroVisual> = {
   peter: {
     name: "Peter",
     superName: "Super Peter",
+    tagline: "Strong, brave and gentle",
     normalFrames: [1, 2, 3, 4].map((n) => asset(`images/characters/animation/peter-normal-run-0${n}.png`)),
     superFrames: [
       asset("images/characters/animation/peter-super-run-01.png"),
       asset("images/characters/animation/peter-super-turn-01.png"),
       asset("images/characters/animation/peter-super-turn-02.png"),
     ],
-    lookBack: asset("images/characters/animation/peter-super-look-back.png"),
-    fallback: asset("images/characters/peter.svg"),
+    celebrationFrame: asset("images/characters/animation/peter-super-run-01.png"),
+    cardFrame: asset("images/characters/animation/peter-normal-run-01.png"),
+    fallback: asset("images/characters/animation/peter-normal-run-01.png"),
     accent: "#2588ff",
   },
   judy: {
     name: "Judy",
     superName: "Super Judy",
+    tagline: "Fast, funny and fearless",
     normalFrames: [1, 2, 3, 4].map((n) => asset(`images/characters/animation/judy-normal-run-0${n}.png`)),
     superFrames: [
       asset("images/characters/animation/judy-super-run-01.png"),
       asset("images/characters/animation/judy-super-turn-01.png"),
     ],
-    lookBack: asset("images/characters/animation/judy-super-look-back.png"),
-    fallback: asset("images/characters/judy.svg"),
+    celebrationFrame: asset("images/characters/animation/judy-super-run-01.png"),
+    cardFrame: asset("images/characters/animation/judy-normal-run-01.png"),
+    fallback: asset("images/characters/animation/judy-normal-run-01.png"),
     accent: "#f052a1",
   },
 };
@@ -81,7 +85,7 @@ function CameraRig({ lane, mode, jumping }: { lane: Lane; mode: TravelMode; jump
     camera.position.lerp(position.current, Math.min(1, delta * 6.5));
     lookAt.current.set(lane * 0.14, sky ? 2.2 : 0.62, sky ? -9 : -13.5);
     camera.lookAt(lookAt.current);
-    camera.rotation.z += ((lane * -0.009) - camera.rotation.z) * Math.min(1, delta * 7);
+    camera.rotation.z += (lane * -0.009 - camera.rotation.z) * Math.min(1, delta * 7);
   });
   return null;
 }
@@ -192,15 +196,38 @@ function CharacterOverlay({ hero, lane, mode, jumping, celebrating }: { hero: He
     const timer = window.setInterval(() => setFrameIndex((value) => (value + 1) % frames.length), mode === "sky" ? 145 : 110);
     return () => window.clearInterval(timer);
   }, [frames, mode, celebrating]);
-  useEffect(() => setSrc(celebrating ? visual.lookBack : (frames[frameIndex] ?? frames[0])), [celebrating, frameIndex, frames, visual.lookBack]);
+  useEffect(() => setSrc(celebrating ? visual.celebrationFrame : (frames[frameIndex] ?? frames[0])), [celebrating, frameIndex, frames, visual.celebrationFrame]);
   return <div className={`v2-character hero-${hero} travel-${mode} ${jumping ? "is-jumping" : ""} ${celebrating ? "is-celebrating" : ""}`} style={{ "--lane": lane, "--hero-accent": visual.accent } as CSSProperties} aria-label={`${visual.name} running`}>
-    <div className="v2-character-glow" /><img src={src} alt="" onError={() => setSrc(visual.fallback)} draggable={false} /><div className="v2-character-shadow" />
+    <div className="v2-character-glow" /><img src={src} alt="" onError={(event) => { event.currentTarget.onerror = null; setSrc(visual.fallback); }} draggable={false} /><div className="v2-character-shadow" />
+  </div>;
+}
+
+function StartScreen({ selectedHero, onSelectHero, onStart }: { selectedHero: HeroId; onSelectHero: (hero: HeroId) => void; onStart: () => void }) {
+  return <div className="v2-start-screen">
+    <div className="v2-start-panel">
+      <span className="v2-start-kicker">SUPER ZOOS ADVENTURE V2</span>
+      <h2>Choose your hero</h2>
+      <p>Pick Peter or Judy, then start the School Sky Rescue.</p>
+      <div className="v2-hero-cards">
+        {(Object.keys(HEROES) as HeroId[]).map((id) => {
+          const hero = HEROES[id];
+          const selected = id === selectedHero;
+          return <button type="button" key={id} className={`v2-hero-card ${selected ? "is-selected" : ""}`} onClick={() => onSelectHero(id)} style={{ "--hero-accent": hero.accent } as CSSProperties}>
+            <img src={hero.cardFrame} alt={hero.name} draggable={false} />
+            <strong>{hero.name}</strong>
+            <span>{hero.tagline}</span>
+          </button>;
+        })}
+      </div>
+      <button type="button" className="v2-start-button" onClick={onStart}>Start Adventure</button>
+    </div>
   </div>;
 }
 
 const makeSkyGems = (): GemState[] => SKY_PATTERN.map((lane, index) => ({ id: index, lane, progress: -index * 0.095, collected: false }));
 
 export function SuperZoosAdventureV2() {
+  const [started, setStarted] = useState(false);
   const [hero, setHero] = useState<HeroId>("peter");
   const [lane, setLane] = useState<Lane>(0);
   const laneRef = useRef<Lane>(0);
@@ -218,6 +245,7 @@ export function SuperZoosAdventureV2() {
   useEffect(() => { laneRef.current = lane; }, [lane]);
 
   useEffect(() => {
+    if (!started) return;
     let frame = 0;
     let previous = performance.now();
     const tick = (now: number) => {
@@ -252,10 +280,10 @@ export function SuperZoosAdventureV2() {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [mode]);
+  }, [mode, started]);
 
   useEffect(() => {
-    if (mode !== "launch") return;
+    if (!started || mode !== "launch") return;
     setGems(makeSkyGems());
     const toSky = window.setTimeout(() => setMode("sky"), 600);
     const toLanding = window.setTimeout(() => setMode("landing"), 4100);
@@ -269,24 +297,48 @@ export function SuperZoosAdventureV2() {
       window.clearTimeout(toLanding);
       window.clearTimeout(toGround);
     };
-  }, [mode]);
+  }, [mode, started]);
 
   useEffect(() => () => {
     if (celebrationTimer.current) window.clearTimeout(celebrationTimer.current);
   }, []);
 
-  const stepLane = (direction: -1 | 1) => setLane((current) => Math.max(-1, Math.min(1, current + direction)) as Lane);
+  const resetRun = () => {
+    setLane(0);
+    setJumping(false);
+    setMode("ground");
+    setScore(0);
+    setDistance(0);
+    setTrampolineProgress(0);
+    setGems(makeSkyGems());
+    setCelebrating(false);
+  };
+
+  const startRun = () => {
+    resetRun();
+    setStarted(true);
+  };
+
+  const stepLane = (direction: -1 | 1) => {
+    if (!started) return;
+    setLane((current) => Math.max(-1, Math.min(1, current + direction)) as Lane);
+  };
+
   const jump = () => {
-    if (mode !== "ground" || jumping) return;
+    if (!started || mode !== "ground" || jumping) return;
     setJumping(true);
     window.setTimeout(() => setJumping(false), 760);
   };
+
   const pointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (!started) return;
     event.preventDefault();
     gestureRef.current = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
     try { event.currentTarget.setPointerCapture(event.pointerId); } catch { /* Safari fallback */ }
   };
+
   const pointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    if (!started) return;
     event.preventDefault();
     const start = gestureRef.current;
     gestureRef.current = null;
@@ -302,28 +354,27 @@ export function SuperZoosAdventureV2() {
 
   const transientMessage = mode === "launch"
     ? `${HEROES[hero].superName.toUpperCase()} LAUNCH!`
-    : mode === "sky"
-      ? ""
-      : mode === "landing"
-        ? "Safe landing!"
-        : "";
+    : mode === "landing"
+      ? "Safe landing!"
+      : "";
 
-  return <main className={`v2-app mode-${mode}`}>
+  return <main className={`v2-app mode-${mode} ${started ? "is-running" : "is-starting"}`}>
     <header className="v2-hud">
       <div><span className="v2-kicker">SUPER ZOOS ADVENTURE V2</span><h1>School Sky Rescue</h1></div>
-      <div className="v2-hud-right"><span className="v2-zone">{ZONE_LABELS[zone]}</span><span className="v2-score">Gems {score}</span><span className="v2-status">{mode === "sky" ? "Sky Run" : mode === "launch" ? "Launch" : mode === "landing" ? "Landing" : "School Route"}</span></div>
+      <div className="v2-hud-right"><span className="v2-zone">{ZONE_LABELS[zone]}</span><span className="v2-score">Gems {score}</span><span className="v2-status">{started ? (mode === "sky" ? "Sky Run" : mode === "launch" ? "Launch" : mode === "landing" ? "Landing" : HEROES[hero].name) : "Choose Hero"}</span></div>
     </header>
     <section className="v2-stage" onPointerDown={pointerDown} onPointerUp={pointerUp} onPointerCancel={() => { gestureRef.current = null; }} aria-label="Swipe left or right to move. Swipe up or tap to jump.">
       <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 4.2, 9.9], fov: 45 }}><Scene mode={mode} lane={lane} jumping={jumping} trampolineProgress={trampolineProgress} gems={gems} zone={zone} /></Canvas>
-      <CharacterOverlay hero={hero} lane={lane} mode={mode} jumping={jumping} celebrating={celebrating} />
+      {started && <CharacterOverlay hero={hero} lane={lane} mode={mode} jumping={jumping} celebrating={celebrating} />}
+      {!started && <StartScreen selectedHero={hero} onSelectHero={setHero} onStart={startRun} />}
       {transientMessage && <div className="v2-message">{transientMessage}</div>}
       <div className="v2-trampoline-meter" aria-hidden="true"><span style={{ width: `${trampolineProgress * 100}%` }} /></div>
     </section>
     <nav className="v2-controls" aria-label="Game controls" onPointerDown={(event) => event.stopPropagation()}>
-      <button type="button" onClick={() => stepLane(-1)}>Left</button>
-      <button type="button" onClick={() => stepLane(1)}>Right</button>
-      <button type="button" className="jump" onClick={jump} disabled={mode !== "ground"}>Jump</button>
-      <button type="button" className="hero-switch" onClick={() => setHero((value) => value === "peter" ? "judy" : "peter")} disabled={mode !== "ground"}>{HEROES[hero].name}</button>
+      <button type="button" onClick={() => stepLane(-1)} disabled={!started}>Left</button>
+      <button type="button" onClick={() => stepLane(1)} disabled={!started}>Right</button>
+      <button type="button" className="jump" onClick={jump} disabled={!started || mode !== "ground"}>Jump</button>
+      <button type="button" className="hero-switch" onClick={() => setStarted(false)}>{started ? HEROES[hero].name : "Choose"}</button>
     </nav>
   </main>;
 }
