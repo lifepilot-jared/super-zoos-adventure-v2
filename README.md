@@ -1,26 +1,25 @@
-# Super Zoos Adventure V2
+# Super Zoos Dash
 
-Standalone public test build for Eli's original Super Zoos plush superhero world.
+A simple iPad-friendly web game for Eli's original Super Zoos plush superhero world.
 
-## Live game
+## MVP direction
 
-When GitHub Pages deployment is complete, the game will be available at:
+Peter starts as normal Peter, runs across an Australian school oval, collects star gems, avoids meteor ripples, and transforms into Super Peter when he uses shield power or collects a blue hero badge.
 
-https://lifepilot-jared.github.io/super-zoos-adventure-v2/
-
-## Current V2 features
+## Current MVP features
 
 - React + TypeScript + Vite static web app
-- React Three Fiber / Three.js school-route scene
-- Peter and Judy animation frames
-- Australian school environment zones
-- iPad-friendly portrait-first controls
-- Swipe left/right lane changes
-- Tap or swipe-up jump
-- Trampoline launch
-- Short sky-gem flight section
-- Safe landing back to the school route
-- Accessibility-safe tone with no harsh failure state
+- iPad-friendly portrait-first layout
+- Tap play area to jump
+- Big Shield button
+- Pause / Resume / Restart
+- 3-heart health system
+- Star gems and score
+- Best score saved in localStorage
+- Calm Mode for gentler play
+- Sound toggle
+- Asset folders prepared for future character images and voice clips
+- GitHub Pages workflow prepared
 
 ## Build commands
 
@@ -31,6 +30,12 @@ npm run build
 npm run preview
 ```
 
-## Asset policy
+## Asset upload folders
 
-Use only original Super Zoos art, voice clips, and sounds. Do not upload copied franchise assets.
+```text
+public/characters/
+public/villains/
+public/sounds/
+```
+
+Do not upload copied franchise assets. Use original Super Zoos art and voice clips only.
