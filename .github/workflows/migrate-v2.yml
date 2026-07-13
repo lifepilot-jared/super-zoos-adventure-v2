@@ -1,8 +1,9 @@
 name: Migrate Super Zoos Adventure V2
 
+# Manual-only safety workflow.
+# This originally copied the old v2 branch from super-zoos-dash into this standalone repo.
+# It must NOT run on every push, otherwise it overwrites standalone fixes.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
