@@ -1,7 +1,7 @@
 import { Text, useTexture } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
-import { Vector3, type Group, type Mesh } from "three";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { Vector3, type Group } from "three";
 import "./superZoosAdventureV25.css";
 
 type Lane = -1 | 0 | 1;
@@ -93,7 +93,7 @@ function ItemShape({kind}:{kind:Kind}){
   if(kind==="shield") return <mesh><icosahedronGeometry args={[.62,0]}/><meshStandardMaterial color="#55d9ff" emissive="#178dd2" emissiveIntensity={.8}/></mesh>;
   if(kind==="boost") return <mesh rotation={[0,0,.8]}><coneGeometry args={[.55,1.1,5]}/><meshStandardMaterial color="#ffe052" emissive="#ff8c00" emissiveIntensity={.8}/></mesh>;
   if(kind==="magnet") return <group><mesh position={[-.25,0,0]} rotation={[0,0,.25]}><boxGeometry args={[.22,.9,.22]}/><meshStandardMaterial color="#ef4ed2" emissive="#9b2cc1" emissiveIntensity={.7}/></mesh><mesh position={[.25,0,0]} rotation={[0,0,-.25]}><boxGeometry args={[.22,.9,.22]}/><meshStandardMaterial color="#ef4ed2" emissive="#9b2cc1" emissiveIntensity={.7}/></mesh></group>;
-  if(kind==="skateboard") return <group rotation={[0,0,0]}><mesh><boxGeometry args={[.5,.14,1.55]}/><meshStandardMaterial color="#34dfd0" emissive="#168fa8" emissiveIntensity={.55}/></mesh>{[-.52,.52].map(z=><group key={z}>{[-.2,.2].map(x=><mesh key={x} position={[x,-.15,z]} rotation={[0,0,Math.PI/2]}><cylinderGeometry args={[.1,.1,.18,10]}/><meshStandardMaterial color="#26394a"/></mesh>)}</group>)}</group>;
+  if(kind==="skateboard") return <group><mesh><boxGeometry args={[.5,.14,1.55]}/><meshStandardMaterial color="#34dfd0" emissive="#168fa8" emissiveIntensity={.55}/></mesh>{[-.52,.52].map(z=><group key={z}>{[-.2,.2].map(x=><mesh key={x} position={[x,-.15,z]} rotation={[0,0,Math.PI/2]}><cylinderGeometry args={[.1,.1,.18,10]}/><meshStandardMaterial color="#26394a"/></mesh>)}</group>)}</group>;
   if(kind==="meteor") return <mesh><dodecahedronGeometry args={[.72,0]}/><meshStandardMaterial color="#d64d2b" emissive="#ff5a20" emissiveIntensity={.45}/></mesh>;
   if(kind==="ice") return <mesh><boxGeometry args={[1.2,1.05,1.05]}/><meshStandardMaterial color="#a7efff" emissive="#48bddf" emissiveIntensity={.3} transparent opacity={.88}/></mesh>;
   if(kind==="barrier") return <group><mesh><boxGeometry args={[1.6,.34,.42]}/><meshStandardMaterial color="#ff7a31"/></mesh>{[-.58,.58].map(v=><mesh key={v} position={[v,-.32,0]}><boxGeometry args={[.18,.76,.18]}/><meshStandardMaterial color="#fff"/></mesh>)}</group>;
@@ -141,12 +141,12 @@ export function SuperZoosAdventureV25(){
   const next=useCallback(()=>{setIndex(i=>i+1);setProgress(-.05);setCollected([]);setBurst(null)},[]);
   const reset=useCallback(()=>{setPhase("ground");setLane(0);laneRef.current=0;setJumping(false);jumpingRef.current=false;setSliding(false);slidingRef.current=false;setIndex(0);setProgress(-.05);setCollected([]);setBurst(null);setSkyGems(makeSky());setElapsed(0);setScore(0);setGems(0);setHearts(3);setSkating(false);setPowers({shieldUntil:0,boostUntil:0,magnetUntil:0});setFeedback("");setGameOver(false)},[]);
   useEffect(()=>{if(!started||gameOver)return;let raf=0,prev=performance.now();const tick=(now:number)=>{const dt=Math.min(.04,(now-prev)/1000);prev=now;if(phase==="ground"||phase==="grind"){
-    const boost=powers.boostUntil>now;setProgress(p=>{const n=p+dt*(boost?.28:.235);pattern.offsets.forEach((off,i)=>{if(collected.includes(i))return;const effective=n-off*.18;const magnet=powers.magnetUntil>now&&pattern.kind==="star";const laneHit=laneRef.current===pattern.lane||magnet;if(effective>=.98&&effective<=1.1&&laneHit){
+    const boost=powers.boostUntil>now;setProgress(p=>{const n=p+dt*(boost ? .28 : .235);pattern.offsets.forEach((off,i)=>{if(collected.includes(i))return;const effective=n-off*.18;const magnet=powers.magnetUntil>now&&pattern.kind==="star";const laneHit=laneRef.current===pattern.lane||magnet;if(effective>=.98&&effective<=1.1&&laneHit){
       if(pattern.kind==="trampoline"){setPhase("launch");setElapsed(0);setSkyGems(makeSky());say("Sky Run!");return;}
       if(pattern.kind==="rail"){if(skating){setPhase("grind");setScore(s=>s+60);say("Long rail grind +60!")}else say("Find the skateboard first");setCollected(v=>[...v,i]);return;}
       if(pattern.good){setCollected(v=>[...v,i]);setBurst(i);window.setTimeout(()=>setBurst(null),280);let value=10;if(pattern.kind==="shield"){setPowers(v=>({...v,shieldUntil:now+6000}));value=20;say("Shield active!")}else if(pattern.kind==="boost"){setPowers(v=>({...v,boostUntil:now+5000}));value=25;say("Speed boost!")}else if(pattern.kind==="magnet"){setPowers(v=>({...v,magnetUntil:now+6000}));value=25;say("Gem magnet!")}else if(pattern.kind==="skateboard"){setSkating(true);value=30;say("Skateboard unlocked!")}else say("Collected!");setScore(s=>s+value);setGems(g=>g+1);return;}
       const shield=powers.shieldUntil>now;if(shield){setCollected(v=>[...v,i]);say("Shield blocked it!");return;}const safe=(pattern.jumpable&&jumpingRef.current)||(pattern.slideOnly&&slidingRef.current);if(safe){setCollected(v=>[...v,i]);setScore(s=>s+5);say(pattern.slideOnly?"Great slide +5":"Great jump +5")}else{setCollected(v=>[...v,i]);setHearts(h=>{const v=Math.max(0,h-1);if(v===0){setGameOver(true);setStarted(false)}return v});say("Careful — heart lost")}
-    }});if(n>1.42){next();return-.05}return n});
+    }});if(n>1.42){if(phase==="grind")setPhase("ground");next();return-.05}return n});
   }else{setElapsed(v=>v+dt);if(phase==="launch"&&elapsed>.55){setPhase("sky");setElapsed(0)}else if(phase==="sky"){setSkyGems(list=>list.map(g=>{if(g.taken)return g;const p=g.progress+dt*.38;if(p>=.84&&p<=1.05&&g.lane===laneRef.current){setScore(s=>s+10);setGems(v=>v+1);say("Sky gem +10");return{...g,progress:p,taken:true}}return{...g,progress:p,taken:p>1.15}}));if(elapsed>3){setPhase("landing");setElapsed(0)}}else if(phase==="landing"&&elapsed>.75){setPhase("ground");setElapsed(0);next();say("Back to the school route!")}}
     raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf)},[started,gameOver,phase,elapsed,pattern,next,say,skating,powers,collected]);
   const move=(d:-1|1)=>{if(started)setLane(v=>Math.max(-1,Math.min(1,v+d)) as Lane)};
